@@ -17,6 +17,7 @@ import java.util.Objects;
 public class OrderLine {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

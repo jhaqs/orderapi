@@ -10,6 +10,7 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO>{
 
     @Override
     public ProductDTO fromEntity(Product entity) {
+        if(entity==null) return null;
         return ProductDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -18,23 +19,11 @@ public class ProductConverter extends AbstractConverter<Product, ProductDTO>{
 
     @Override
     public Product fromDTO(ProductDTO dto) {
+        if(dto==null) return null;
         return Product.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .price(dto.getPrice()).build();
     }
 
-    @Override
-    public List<ProductDTO> fromEntity(List<Product> entitys) {
-        return entitys.stream()
-                .map(e->fromEntity(e))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Product> fromDTO(List<ProductDTO> dtos) {
-        return dtos.stream()
-                .map(d->fromDTO(d))
-                .collect(Collectors.toList());
-    }
 }

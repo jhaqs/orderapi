@@ -1,19 +1,16 @@
 package com.codmind.orderapi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
 @Entity
 @Table(name="ORDERS")
 public class Order {
@@ -25,7 +22,7 @@ public class Order {
     @Column(name="REG_DATE", nullable = false, updatable = false)
     private LocalDateTime regDate;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderLine> lines;
 
     @Column(name = "TOTAL", nullable = false)
@@ -43,4 +40,5 @@ public class Order {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }
