@@ -21,3 +21,5 @@ insert into order_lines (fk_order, fk_product, price, quantity, total) values (2
 insert into order_lines (fk_order, fk_product, price, quantity, total) values (2,8,800, 1,800);
 insert into order_lines (fk_order, fk_product, price, quantity, total) values (2,9,900, 1,900);
 insert into order_lines (fk_order, fk_product, price, quantity, total) values (2,10,1000, 1, 1000);
+
+insert into users(username, password) values ('oscar', '1234');

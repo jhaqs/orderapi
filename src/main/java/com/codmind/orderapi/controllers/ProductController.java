@@ -22,7 +22,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    private final ProductConverter productConverter = new ProductConverter();
+    @Autowired
+    private ProductConverter productConverter;
+    //private final ProductConverter productConverter = new ProductConverter();
 
     @GetMapping(value="products")
     public ResponseEntity<WrapperResponse<List<ProductDTO>>> findAll

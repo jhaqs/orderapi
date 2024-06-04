@@ -8,7 +8,9 @@ import com.codmind.orderapi.exceptions.NoDataFoundException;
 import com.codmind.orderapi.exceptions.ValidateServiceException;
 import com.codmind.orderapi.repository.OrderLineRepository;
 import com.codmind.orderapi.repository.OrderRepository;
+import com.codmind.orderapi.repository.ProductRepository;
 import com.codmind.orderapi.services.OrderService;
+import com.codmind.orderapi.validators.OrderValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderLineRepository orderLineRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<Order> findAll(Pageable pageable) {
@@ -77,6 +82,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order save(Order order) {
+        OrderValidator.save(order);
+
+        double total=0;
+        for(OrderLine line :order.getLines()){
+            Product product = productRepository.findById(line.getProduct().getId())
+                    .orElseThrow(()->new NoDataFoundException("No existe el producto "+line.getProduct().getId()));
+
+            line.setPrice(product.getPrice());
+            line.setTotal(product.getPrice() * line.getQuantity());
+            total += line.getTotal();
+        }
+        order.setTotal(total);
+
         try {
             order.getLines().forEach(line->line.setOrder(order));
             if(order.getId()==null){

@@ -5,15 +5,17 @@ import com.codmind.orderapi.dtos.OrderLineDTO;
 import com.codmind.orderapi.entity.Order;
 import com.codmind.orderapi.entity.OrderLine;
 import com.codmind.orderapi.entity.Product;
+import lombok.AllArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class OrderConverter extends AbstractConverter<Order, OrderDTO>{
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
-    private ProductConverter productConverter = new ProductConverter();
+    private DateTimeFormatter dateTimeFormatter;
+    private ProductConverter productConverter;
 
     @Override
     public OrderDTO fromEntity(Order entity) {
